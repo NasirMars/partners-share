@@ -1,90 +1,104 @@
-# Python code to calculate monthly investment distribution
-# Run this in Google Colab or any Python environment
+# 这个程序根据合同要求计算每个合伙人最后应该分得的钱。
+# 运行程序可以访问Google Colab网页：https://colab.research.google.com/ 新建文本粘贴所有程序即可。
+# F会依照计划，每个月低更新一次，如果有转账需要及时更新。
+# F不需要公开买入的公司，但是向合伙人需要公开账单以便查账。
+# 最后一次更新时间： 2025年7月17日
+# 预计下一次更新时间： 2025年7月31日
 
-# Define the variables here. Replace with your actual values.
-F_start = 10000.0  # Beginning capital for F
-L_start = 1000.0  # Beginning capital for L
-Z_start = 1000.0  # Beginning capital for Z
-total_end = 19000.0  # Total capital at the end of the month
+from decimal import Decimal, ROUND_FLOOR
+
+F_start = Decimal('10600.0')    # F先生的之前投入资金
+L_start = Decimal('0.0')        # L先生的之前投入资金
+Z_start = Decimal('0.0')        # Z先生的之前投入资金
+total_end = Decimal('10600.0')  # 结算资金（投资后）
 
 # Calculate total starting capital
 total_start = F_start + L_start + Z_start
-print(f"Total starting capital: {total_start:.2f}")
+print(f"投入总资金: {total_start.quantize(Decimal('0.01'), ROUND_FLOOR)}")
 
 if total_start <= 0:
     print("Total beginning capital must be positive.")
 else:
     # Calculate gain percentage
-    gain_pct = ((total_end - total_start) / total_start) * 100 if total_start > 0 else 0.0
-    print(f"Monthly gain: {gain_pct:.2f}%")
+    gain_pct = ((total_end - total_start) / total_start) * Decimal('100') if total_start > 0 else Decimal('0.0')
+    print(f"月盈利百分比: {gain_pct.quantize(Decimal('0.01'), ROUND_FLOOR)}%")
 
     # Proportions
     proportions = {
-        'F': F_start / total_start,
-        'L': L_start / total_start,
-        'Z': Z_start / total_start
+        'F先生': F_start / total_start,
+        'L先生': L_start / total_start,
+        'Z先生': Z_start / total_start
     }
-    print("\nProportions:")
+    print("\n投入资金每人比例:")
     for person, prop in proportions.items():
-        print(f"{person}: {prop:.4f} ({F_start:.2f}/{total_start:.2f} for F, etc.)")
+        prop_pct = (prop * Decimal('100')).quantize(Decimal('0.01'), ROUND_FLOOR)
+        print(f"{person}: {prop_pct}%")
 
     # Total profit or loss
     profit = total_end - total_start
-    print(f"\nTotal profit/loss: {profit:.2f}")
+    print(f"\n当月总盈利/亏损（单位：美金）: {profit.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
 
     finals = {}
     if profit <= 0:
-        print("Loss or no gain. Distributing by proportion.")
-        finals['F'] = proportions['F'] * total_end
-        finals['L'] = proportions['L'] * total_end
-        finals['Z'] = proportions['Z'] * total_end
-        print("\nDetails:")
-        print(f"F: proportion {proportions['F']:.4f} * total_end {total_end:.2f} = {finals['F']:.2f}")
-        print(f"L: proportion {proportions['L']:.4f} * total_end {total_end:.2f} = {finals['L']:.2f}")
-        print(f"Z: proportion {proportions['Z']:.4f} * total_end {total_end:.2f} = {finals['Z']:.2f}")
+        print("当月没有盈利，不需要抽成")
+        finals['F先生'] = proportions['F先生'] * total_end
+        finals['L先生'] = proportions['L先生'] * total_end
+        finals['Z先生'] = proportions['Z先生'] * total_end
+        print("\n详情:")
+        print(f"F先生: 占比 {proportions['F先生'].quantize(Decimal('0.01'), ROUND_FLOOR)} * 当月结算总资金 {total_end.quantize(Decimal('0.01'), ROUND_FLOOR)}$ = {finals['F先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"L先生: 占比 {proportions['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)} * 当月结算总资金 {total_end.quantize(Decimal('0.01'), ROUND_FLOOR)}$ = {finals['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"Z先生: 占比 {proportions['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)} * 当月结算总资金 {total_end.quantize(Decimal('0.01'), ROUND_FLOOR)}$ = {finals['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
     else:
         # Determine fee rate
         if 0 < gain_pct < 40:
-            fee_rate = 0.2
+            fee_rate = Decimal('0.2')
         elif gain_pct >= 40:
-            fee_rate = 0.3
+            fee_rate = Decimal('0.3')
+        elif gain_pct >= 80:
+            fee_rate = Decimal('0.5')
         else:
-            fee_rate = 0  # Should not happen if profit > 0
+            fee_rate = Decimal('0')  # Should not happen if profit > 0
 
-        print(f"Gain positive. Applying performance fee to F at rate: {fee_rate * 100:.0f}%")
+        print(f"当月有盈利，需要向F先生提供盈利部分的抽成比: {fee_rate * Decimal('100'):.0f}%")
 
         # Individual profits
         profits = {
-            'F': proportions['F'] * profit,
-            'L': proportions['L'] * profit,
-            'Z': proportions['Z'] * profit
+            'F先生': proportions['F先生'] * profit,
+            'L先生': proportions['L先生'] * profit,
+            'Z先生': proportions['Z先生'] * profit
         }
-        print("\nIndividual profits before fees:")
+        print("\n抽成前每人的盈亏资金:")
         for person, prof in profits.items():
-            print(f"{person}: proportion {proportions[person]:.4f} * total profit {profit:.2f} = {prof:.2f}")
+            print(f"{person}: 占比 {proportions[person].quantize(Decimal('0.01'), ROUND_FLOOR)} x 总盈亏 {profit.quantize(Decimal('0.01'), ROUND_FLOOR)} = {prof.quantize(Decimal('0.01'), ROUND_FLOOR)}")
 
         # Fees
-        fee_from_L = fee_rate * profits['L']
-        fee_from_Z = fee_rate * profits['Z']
-        print("\nFees paid to F:")
-        print(f"From L: {fee_rate * 100:.0f}% of L's profit {profits['L']:.2f} = {fee_from_L:.2f}")
-        print(f"From Z: {fee_rate * 100:.0f}% of Z's profit {profits['Z']:.2f} = {fee_from_Z:.2f}")
+        fee_from_L = fee_rate * profits['L先生']
+        fee_from_Z = fee_rate * profits['Z先生']
+        print("\n向F先生提供的抽成:")
+        print(f"L先生的盈利部分: {profits['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ x 抽成{fee_rate * Decimal('100'):.0f}% = {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"Z先生的盈利部分: {profits['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ x 抽成{fee_rate * Decimal('100'):.0f}% = {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
 
         # Final amounts
-        finals['F'] = F_start + profits['F'] + fee_from_L + fee_from_Z
-        finals['L'] = L_start + profits['L'] - fee_from_L
-        finals['Z'] = Z_start + profits['Z'] - fee_from_Z
+        finals['F先生'] = F_start + profits['F先生'] + fee_from_L + fee_from_Z
+        finals['L先生'] = L_start + profits['L先生'] - fee_from_L
+        finals['Z先生'] = Z_start + profits['Z先生'] - fee_from_Z
 
-        print("\nFinal calculations:")
-        print(f"F: start {F_start:.2f} + profit {profits['F']:.2f} + fee from L {fee_from_L:.2f} + fee from Z {fee_from_Z:.2f} = {finals['F']:.2f}")
-        print(f"L: start {L_start:.2f} + profit {profits['L']:.2f} - fee {fee_from_L:.2f} = {finals['L']:.2f}")
-        print(f"Z: start {Z_start:.2f} + profit {profits['Z']:.2f} - fee {fee_from_Z:.2f} = {finals['Z']:.2f}")
+        print("\n最后每人分成计算:")
+        print(f"F先生: 投入资金 {F_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$ + 当月盈亏 {profits['F先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ + 获得L先生的抽成 {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)}$ + 获得Z先生的抽成 {fee_from_Z.quantize(Decimal('0.01'), ROUND_FLOOR)}$ = {finals['F先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"L先生: 投入资金 {L_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$ + 当月盈亏 {profits['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ - 扣除的抽成 {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)} = {finals['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"Z先生: 投入资金 {Z_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$ + 当月盈亏 {profits['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ - 扣除的抽成 {fee_from_Z.quantize(Decimal('0.01'), ROUND_FLOOR)} = {finals['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+
+    # Truncate and adjust to avoid exceeding and match total
+    truncated = {person: finals[person].quantize(Decimal('0.01'), ROUND_FLOOR) for person in finals}
+    sum_trunc = sum(truncated.values())
+    diff = total_end - sum_trunc
+    truncated['F先生'] += diff
 
     # Print the results
-    print("\nFinal amounts:")
-    for person, amount in finals.items():
-        print(f"{person} should get: {amount:.2f}")
+    print("\n月结后金额:")
+    for person, amount in truncated.items():
+        print(f"{person} 分得: {amount}$")
 
     # Check if the sum matches total_end
-    total_final = sum(finals.values())
-    print(f"Total distributed: {total_final:.2f} (should match end capital {total_end:.2f})")
+    total_final = sum(truncated.values())
+    print(f"用于检验：计算后资金 {total_final} (真实剩余资金 {total_end}) 查验通过✅")
