@@ -2,15 +2,16 @@
 # 运行程序可以翻墙后访问Google Colab网页：https://colab.research.google.com/ 新建文本粘贴所有程序即可。
 # F会依照计划，每个月低更新一次，如果有转账需要及时更新。
 # F不需要公开买入的公司，但是向合伙人需要公开账单以便查账。
+# 状态：未启用
 # 最后一次更新时间： 2025年7月17日
 # 预计下一次更新时间： 2025年7月31日
 
 from decimal import Decimal, ROUND_FLOOR
 
-F_start = Decimal('10600.0')    # F先生的之前投入资金
-L_start = Decimal('0.0')        # L先生的之前投入资金
-Z_start = Decimal('0.0')        # Z先生的之前投入资金
-total_end = Decimal('10600.0')  # 结算资金（投资后）
+F_start = Decimal('10600.0')    # F先生的之前投入资金（最后更新时间：2025年7月20日）
+L_start = Decimal('0.0')        # L先生的之前投入资金（最后更新时间：2025年7月20日）
+Z_start = Decimal('0.0')        # Z先生的之前投入资金（最后更新时间：2025年7月20日）
+total_end = Decimal('10600.0')  # 结算资金（投资后）（最后更新时间：未启用）
 
 # Calculate total starting capital
 total_start = F_start + L_start + Z_start
