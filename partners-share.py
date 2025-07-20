@@ -3,7 +3,7 @@
 # F会依照计划，每个月低更新一次，如果有转账需要及时更新。
 # F不需要公开买入的公司，但是向合伙人需要公开账单以便查账。
 # 状态：未启用
-# 最后一次更新时间： 2025年7月17日
+# 最后一次更新时间： 2025年7月20日
 # 预计下一次更新时间： 2025年7月31日
 
 from decimal import Decimal, ROUND_FLOOR
@@ -51,12 +51,12 @@ else:
         print(f"Z先生: 占比 {proportions['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)} * 当月结算总资金 {total_end.quantize(Decimal('0.01'), ROUND_FLOOR)}$ = {finals['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$")
     else:
         # Determine fee rate
-        if 0 < gain_pct < 40:
+        if 0 < gain_pct < 25:
             fee_rate = Decimal('0.2')
-        elif gain_pct >= 40:
+        elif 25 <= gain_pct < 40:
             fee_rate = Decimal('0.3')
-        elif gain_pct >= 80:
-            fee_rate = Decimal('0.5')
+        elif 40 <= gain_pct:
+            fee_rate = Decimal('0.4')
         else:
             fee_rate = Decimal('0')  # Should not happen if profit > 0
 
