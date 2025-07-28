@@ -11,7 +11,7 @@ from decimal import Decimal, ROUND_FLOOR
 F_start = Decimal('11561.97')    # F先生的之前投入资金（最后更新时间：2025年7月23日）
 L_start = Decimal('1000.0')        # L先生的之前投入资金（最后更新时间：2025年7月23日）
 Z_start = Decimal('2000.0')        # Z先生的之前投入资金（最后更新时间：2025年7月23日）
-total_end = Decimal('14561.97')  # 结算资金（投资后）（最后更新时间：未启用）
+total_end = Decimal('15438.58')  # 结算资金（投资后）（最后更新时间：2025年7月28日）
 
 # Calculate total starting capital
 total_start = F_start + L_start + Z_start
