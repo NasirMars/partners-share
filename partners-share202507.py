@@ -9,13 +9,21 @@
 from decimal import Decimal, ROUND_FLOOR
 
 F_start = Decimal('11561.97')    # F先生的之前投入资金（最后更新时间：2025年7月23日）
-L_start = Decimal('1000.0')        # L先生的之前投入资金（最后更新时间：2025年7月23日）
-Z_start = Decimal('2000.0')        # Z先生的之前投入资金（最后更新时间：2025年7月23日）
+L_start = Decimal('1000.0')      # L先生的之前投入资金（最后更新时间：2025年7月23日）
+Z_start = Decimal('2000.0')      # Z先生的之前投入资金（最后更新时间：2025年7月23日）
 total_end = Decimal('15438.58')  # 结算资金（投资后）（最后更新时间：2025年7月28日）
+
+# Print initial investments
+print("每个人的投入资金:")
+print(f"F先生: {F_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+print(f"L先生: {L_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+print(f"Z先生: {Z_start.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+print()
 
 # Calculate total starting capital
 total_start = F_start + L_start + Z_start
 print(f"投入总资金: {total_start.quantize(Decimal('0.01'), ROUND_FLOOR)}")
+print(f"投资后结算总资金: {total_end.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
 
 if total_start <= 0:
     print("Total beginning capital must be positive.")
@@ -77,7 +85,7 @@ else:
         fee_from_Z = fee_rate * profits['Z先生']
         print("\n向F先生提供的抽成:")
         print(f"L先生的盈利部分: {profits['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ x 抽成{fee_rate * Decimal('100'):.0f}% = {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
-        print(f"Z先生的盈利部分: {profits['L先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ x 抽成{fee_rate * Decimal('100'):.0f}% = {fee_from_L.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
+        print(f"Z先生的盈利部分: {profits['Z先生'].quantize(Decimal('0.01'), ROUND_FLOOR)}$ x 抽成{fee_rate * Decimal('100'):.0f}% = {fee_from_Z.quantize(Decimal('0.01'), ROUND_FLOOR)}$")
 
         # Final amounts
         finals['F先生'] = F_start + profits['F先生'] + fee_from_L + fee_from_Z
