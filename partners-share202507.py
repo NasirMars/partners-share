@@ -3,15 +3,24 @@
 # F会依照计划，每个月底更新一次，如果有转账需要及时更新。
 # F不需要公开买入的公司，但是向合伙人需要公开账单以便查账。
 # 状态：已启用
-# 最后一次更新时间： 2025年7月23日
-# 预计下一次更新时间： 2025年7月31日
+# 这是2025年7月分成单
+# 开始时间： 2025年7月23日
+# 最后更新时间： 2025年7月31日
 
 from decimal import Decimal, ROUND_FLOOR
+
+start_time = '2025年7月23日'
+end_time = '2025年7月31日'
 
 F_start = Decimal('11561.97')    # F先生的之前投入资金（最后更新时间：2025年7月23日）
 L_start = Decimal('1000.0')      # L先生的之前投入资金（最后更新时间：2025年7月23日）
 Z_start = Decimal('2000.0')      # Z先生的之前投入资金（最后更新时间：2025年7月23日）
 total_end = Decimal('15339.055')  # 结算资金（投资后）（最后更新时间：2025年7月31日）
+
+# Print start and end times
+print(f"开始时间: {start_time}")
+print(f"结束时间: {end_time}")
+print()
 
 # Print initial investments
 print("每个人的投入资金:")
