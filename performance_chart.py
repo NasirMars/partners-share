@@ -2,6 +2,7 @@ import pandas as pd
 from io import StringIO
 import matplotlib.pyplot as plt
 from datetime import datetime
+import matplotlib.dates as mdates
 
 # Define the data_str (full dataset as provided)
 data_str = """Date/Time Realized P/L
@@ -321,6 +322,15 @@ data_str = """Date/Time Realized P/L
 2025-07-22, 9:30:01 154.834109
 2025-07-23, 9:30:00 483.458160
 2025-07-23, 9:30:00 -26.864915
+2025-07-24, 9:30:00 -0.234328
+2025-07-24, 9:30:00 642.523436
+2025-07-24, 9:30:00 -255.024013
+2025-07-28, 9:30:00 588.531452
+2025-07-28, 9:30:01 -99.19228
+2025-07-29, 9:30:00 148.070691
+2025-07-29, 9:30:00 -187.220451
+2025-07-30, 9:30:01 -109.541017
+2025-07-21, 9:30:01 41.24
 """
 
 
@@ -362,7 +372,7 @@ def plot_account_return_rate(data_str, start_date, end_date, initial_fund=3767.4
     daily_pl['Balance'] = balances
 
     # Calculate daily return percentage
-    daily_pl['Daily_Return'] = (daily_pl['PL'] / daily_pl['Balance'].shift(1).fillna(initial_fund)) * 100
+    daily_pl['Daily_Return'] = (daily_pl['PL'] / daily_pl['Balance']) * 100
 
     # Calculate compounded return
     daily_pl['Compounded_Factor'] = (1 + daily_pl['Daily_Return'] / 100).cumprod()
@@ -375,6 +385,9 @@ def plot_account_return_rate(data_str, start_date, end_date, initial_fund=3767.4
     # First Chart: Compounded Return with Individual (Daily) Return Annotations
     fig1 = plt.figure(figsize=(12, 6))
     plt.plot(daily_pl['Date'], daily_pl['Compounded_Return'], marker='o', linestyle='-')
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     # Annotate each point with the daily return percentage
     for i, row in daily_pl.iterrows():
         plt.annotate(f'{row["Daily_Return"]:.2f}%', (row['Date'], row['Compounded_Return']), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
@@ -382,13 +395,16 @@ def plot_account_return_rate(data_str, start_date, end_date, initial_fund=3767.4
     plt.ylabel('Compounded Return Rate (%)')
     plt.title('Compounded Account Return Rate Over Time with Individual Performance')
     plt.grid(True)
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.show(block=False)
 
     # Second Chart: Compounded Return with Compounded Return Annotations
     fig2 = plt.figure(figsize=(12, 6))
     plt.plot(daily_pl['Date'], daily_pl['Compounded_Return'], marker='o', linestyle='-')
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     # Annotate each point with the compounded return percentage
     for i, row in daily_pl.iterrows():
         plt.annotate(f'{row["Compounded_Return"]:.2f}%', (row['Date'], row['Compounded_Return']), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=8)
@@ -396,10 +412,10 @@ def plot_account_return_rate(data_str, start_date, end_date, initial_fund=3767.4
     plt.ylabel('Compounded Return Rate (%)')
     plt.title('Compounded Account Return Rate Over Time with Compounded Performance')
     plt.grid(True)
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.show()
 
 
 # Call the function with the specified parameters
-plot_account_return_rate(data_str, datetime(2025, 5, 12).date(), datetime(2025, 7, 22).date(), initial_fund=3767.452)
+plot_account_return_rate(data_str, datetime(2025, 5, 12).date(), datetime(2025, 7, 31).date(), initial_fund=3845.35)
