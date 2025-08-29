@@ -5,7 +5,7 @@
 # 状态：已启用
 # 这是2025年8月分成单
 # 开始时间： 2025年8月01日
-# 预估结束时间： 2025年8月29日（星期五）
+# 结束时间： 2025年8月29日（星期五）
 
 from decimal import Decimal, ROUND_FLOOR
 
@@ -15,7 +15,7 @@ end_time = '2025年8月29日'
 F_start = Decimal('13120.611')    # F先生的之前投入资金（最后更新时间：2025年8月01日）
 L_start = Decimal('1042.69')      # L先生的之前投入资金（最后更新时间：2025年8月01日）
 Z_start = Decimal('2085.38')      # Z先生的之前投入资金（最后更新时间：2025年8月01日）
-total_end = Decimal('17586.38')  # 结算资金（投资后）（未更新）
+total_end = Decimal('17586.38')  # 结算资金（投资后）（最后更新时间：2025年8月29日）
 
 # Print start and end times
 print(f"开始时间: {start_time}")
