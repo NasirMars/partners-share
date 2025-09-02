@@ -12,9 +12,9 @@ from decimal import Decimal, ROUND_FLOOR
 start_time = '2025年9月01日'
 end_time = '2025年9月30日'
 
-F_start = Decimal('13971.852')    # F先生的之前投入资金（未更新）
-L_start = Decimal('1111.36')      # L先生的之前投入资金（未更新）
-Z_start = Decimal('5130.308')      # Z先生的之前投入资金（未更新）
+F_start = Decimal('13473.995')    # F先生的之前投入资金（未更新）
+L_start = Decimal('0')      # L先生的之前投入资金（未更新）
+Z_start = Decimal('4814.368')      # Z先生的之前投入资金（未更新）
 total_end = Decimal('??????.???')  # 结算资金（投资后）（未启用）
 
 # Print start and end times
