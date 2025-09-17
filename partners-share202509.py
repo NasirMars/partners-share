@@ -14,8 +14,8 @@ end_time = '2025年9月30日'
 
 F_start = Decimal('13473.995')    # F先生的之前投入资金（未更新）
 L_start = Decimal('0')      # L先生的之前投入资金（未更新）
-Z_start = Decimal('4814.368')      # Z先生的之前投入资金（未更新）
-total_end = Decimal('??????.???')  # 结算资金（投资后）（未启用）
+Z_start = Decimal('5069.88')      # Z先生的之前投入资金（未更新）
+total_end = Decimal('17576.07')  # 结算资金（投资后）（未启用）
 
 # Print start and end times
 print(f"开始时间: {start_time}")
